@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomBottomNavigation extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
-  
+
   const CustomBottomNavigation({
     super.key,
     required this.currentIndex,
@@ -16,10 +16,10 @@ class CustomBottomNavigation extends StatelessWidget {
       height: 70,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
+        border: const Border(
           top: BorderSide(
-            color: const Color(0xFFE0E0E0),
-            width: 0.5, 
+            color: Color(0xFFE0E0E0),
+            width: 0.5,
           ),
         ),
         boxShadow: [
@@ -42,10 +42,11 @@ class CustomBottomNavigation extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(int index, String icon, String label, Color activeColor) {
+  Widget _buildNavItem(
+      int index, String icon, String label, Color activeColor) {
     final isSelected = currentIndex == index;
     final color = isSelected ? activeColor : const Color(0xFFB0B0B0);
-    
+
     return GestureDetector(
       onTap: () => onTap(index),
       child: Container(
@@ -81,4 +82,4 @@ class CustomBottomNavigation extends StatelessWidget {
       ),
     );
   }
-} 
+}

@@ -4,9 +4,10 @@ import '../widgets/post_widget.dart';
 import '../widgets/bottom_navigation.dart';
 import '../models/post.dart';
 import '../services/api_service.dart';
-import 'restore_screen.dart';
+// import './restore_screen.dart';
 import 'watermark_embed_screen.dart';
 import 'watermark_detection_screen.dart';
+import 'dart:developer';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -34,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      print('Error loading posts: $e');
+      log('Error loading posts: $e');
       setState(() {
         _isLoading = false;
       });
@@ -85,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
           // 로그인 버튼
           ElevatedButton(
             onPressed: () {
-              print('=== 헤더 로그인 버튼 클릭됨 ===');
+              log('=== 헤더 로그인 버튼 클릭됨 ===');
               _showLoginDialog();
             },
             style: ElevatedButton.styleFrom(
@@ -159,12 +160,14 @@ class _MainScreenState extends State<MainScreen> {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const WatermarkEmbedScreen(username: 'john_doe')),
+        MaterialPageRoute(
+            builder: (_) => const WatermarkEmbedScreen(username: 'john_doe')),
       );
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const WatermarkDetectionScreen()), // 새 페이지 연결
+        MaterialPageRoute(
+            builder: (_) => const WatermarkDetectionScreen()), // 새 페이지 연결
       );
     }
 
@@ -173,20 +176,22 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  String _getNavTitle(int index) {
-    switch (index) {
-      case 1: return '워터마크 검출';
-      case 2: return '프로필';
-      default: return '홈';
-    }
-  }
+  // String _getNavTitle(int index) {
+  //   switch (index) {
+  //     case 1:
+  //       return '워터마크 검출';
+  //     case 2:
+  //       return '프로필';
+  //     default:
+  //       return '홈';
+  //   }
+  // }
 
   // 로그인 다이얼로그 표시
   void _showLoginDialog() {
-    
     final usernameController = TextEditingController(text: 'seonghun8368');
     final passwordController = TextEditingController(text: 'qwer1234@!');
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -222,7 +227,8 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await _handleHeaderLogin(usernameController.text, passwordController.text);
+              await _handleHeaderLogin(
+                  usernameController.text, passwordController.text);
             },
             child: const Text('로그인'),
           ),
@@ -234,8 +240,8 @@ class _MainScreenState extends State<MainScreen> {
   // 헤더 로그인 처리
   Future<void> _handleHeaderLogin(String username, String password) async {
     print('입력된 사용자명: $username');
-    print('입력된 비밀번호: ${password}');
-    
+    print('입력된 비밀번호: $password');
+
     if (username.isEmpty || password.isEmpty) {
       print('로그인 실패: 사용자명 또는 비밀번호가 비어있음');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -256,14 +262,14 @@ class _MainScreenState extends State<MainScreen> {
     try {
       print('=== 헤더 로그인 API 호출 시작 ===');
       final success = await ApiService.login(username, password);
-      
+
       // 로딩 다이얼로그 닫기
       Navigator.pop(context);
-      
+
       if (success) {
         print('헤더 로그인 성공!');
         Navigator.pop(context);
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('$username님, 로그인 성공!'),
@@ -283,9 +289,9 @@ class _MainScreenState extends State<MainScreen> {
       print('=== 헤더 로그인 에러 발생 ===');
       print('에러 타입: ${e.runtimeType}');
       print('에러 내용: $e');
-      
+
       Navigator.pop(context);
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('로그인 중 오류가 발생했습니다: $e'),
@@ -294,4 +300,4 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
   }
-} 
+}

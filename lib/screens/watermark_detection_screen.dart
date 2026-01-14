@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 import '../services/api_service.dart';
 import 'package:path/path.dart' as path;
 import '../services/media_scanner.dart';
@@ -11,7 +11,8 @@ class WatermarkDetectionScreen extends StatefulWidget {
   const WatermarkDetectionScreen({super.key});
 
   @override
-  State<WatermarkDetectionScreen> createState() => _WatermarkDetectionScreenState();
+  State<WatermarkDetectionScreen> createState() =>
+      _WatermarkDetectionScreenState();
 }
 
 class _WatermarkDetectionScreenState extends State<WatermarkDetectionScreen> {
@@ -19,7 +20,8 @@ class _WatermarkDetectionScreenState extends State<WatermarkDetectionScreen> {
   bool _isDetecting = false;
   String? _detectedWatermark;
   String? _detectionError;
-  final TextEditingController _watermarkDataController = TextEditingController();
+  final TextEditingController _watermarkDataController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +103,9 @@ class _WatermarkDetectionScreenState extends State<WatermarkDetectionScreen> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // 이미지 선택/촬영 버튼들
                 Row(
                   children: [
@@ -124,24 +126,24 @@ class _WatermarkDetectionScreenState extends State<WatermarkDetectionScreen> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // 선택된 이미지 표시
                 if (_selectedImage != null) ...[
                   _buildSelectedImageSection(),
                   const SizedBox(height: 24),
                   _buildDetectionButton(),
                 ],
-                
+
                 const SizedBox(height: 24),
-                
+
                 // 검출 결과 표시
                 if (_detectedWatermark != null) _buildSuccessResult(),
-                
+
                 // 에러 메시지 표시
                 if (_detectionError != null) _buildErrorResult(),
-                
+
                 const SizedBox(height: 20), // 하단 여백
               ],
             ),
@@ -270,21 +272,23 @@ class _WatermarkDetectionScreenState extends State<WatermarkDetectionScreen> {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        gradient: _isDetecting 
-          ? null 
-          : const LinearGradient(
-              colors: [Color(0xFF667DEB), Color(0xFF5A67D8)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        gradient: _isDetecting
+            ? null
+            : const LinearGradient(
+                colors: [Color(0xFF667DEB), Color(0xFF5A67D8)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
         borderRadius: BorderRadius.circular(16),
-        boxShadow: _isDetecting ? null : [
-          BoxShadow(
-            color: const Color(0xFF667DEB).withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
+        boxShadow: _isDetecting
+            ? null
+            : [
+                BoxShadow(
+                  color: const Color(0xFF667DEB).withOpacity(0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
+                ),
+              ],
       ),
       child: ElevatedButton(
         onPressed: _isDetecting ? null : _detectWatermark,
@@ -298,137 +302,136 @@ class _WatermarkDetectionScreenState extends State<WatermarkDetectionScreen> {
           ),
         ),
         child: _isDetecting
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.grey[600]!),
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.grey[600]!),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  '검출 중...',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[600],
+                  const SizedBox(width: 16),
+                  Text(
+                    '검출 중...',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
                   ),
-                ),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.search,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                const Text(
-                  '워터마크 검출하기',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                ],
+              )
+            : const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.search,
+                    size: 20,
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(width: 8),
+                  Text(
+                    '워터마크 검출하기',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
 
-Widget _buildSuccessResult() {
-  return LayoutBuilder(
-    builder: (context, constraints) {
-      return Container(
-        width: constraints.maxWidth, // 부모 Column의 폭에 맞춤
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFF4CAF50).withOpacity(0.1),
-              const Color(0xFF66BB6A).withOpacity(0.05),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF4CAF50).withOpacity(0.3),
-            width: 1.5,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF4CAF50),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.check_circle_outline,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  '워터마크 검출 성공!',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E7D32),
-                  ),
-                ),
+  Widget _buildSuccessResult() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          width: constraints.maxWidth, // 부모 Column의 폭에 맞춤
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF4CAF50).withOpacity(0.1),
+                const Color(0xFF66BB6A).withOpacity(0.05),
               ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            const SizedBox(height: 20),
-            Text(
-              '검출된 정보:',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: const Color(0xFF4CAF50).withOpacity(0.3),
+              width: 1.5,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF4CAF50),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.check_circle_outline,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    '워터마크 검출 성공!',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2E7D32),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFF4CAF50).withOpacity(0.3),
-                  width: 1,
+              const SizedBox(height: 20),
+              Text(
+                '검출된 정보:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[700],
                 ),
               ),
-              child: Text(
-                _detectedWatermark ?? '',
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Color(0xFF333333),
-                  height: 1.4,
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: const Color(0xFF4CAF50).withOpacity(0.3),
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  _detectedWatermark ?? '',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xFF333333),
+                    height: 1.4,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Widget _buildErrorResult() {
     return Container(
@@ -555,40 +558,42 @@ Widget _buildSuccessResult() {
     );
   }
 
-Future<void> _selectFromGallery() async {
-  try {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
+  Future<void> _selectFromGallery() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
 
-    if (result != null && result.files.single.path != null) {
-      final File originalFile = File(result.files.single.path!);
+      if (result != null && result.files.single.path != null) {
+        final File originalFile = File(result.files.single.path!);
 
-      // 외부 저장소 복사
-      final directory = Directory('/storage/emulated/0/Pictures/WaterparkApp');
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
+        final directory =
+            Directory('/storage/emulated/0/Pictures/WaterparkApp');
+        if (!await directory.exists()) {
+          await directory.create(recursive: true);
+        }
+
+        final externalPath =
+            '${directory.path}/${path.basename(originalFile.path)}';
+        final File externalFile = await originalFile.copy(externalPath);
+
+        await MediaScanner.scanFile(externalFile.path);
+
+        setState(() {
+          _selectedImage = externalFile;
+        });
+
+        debugPrint(
+          '_selectedImage 값 (갤러리 외부 경로): ${_selectedImage!.path}',
+        );
+      } else {
+        debugPrint('이미지 선택이 취소되었습니다.');
       }
-
-      final externalPath = '${directory.path}/${path.basename(originalFile.path)}';
-      final File externalFile = await originalFile.copy(externalPath);
-
-      // 갤러리에 반영
-      await MediaScanner.scanFile(externalFile.path);
-
-      setState(() {
-        _selectedImage = externalFile;
-      });
-
-      print('_selectedImage 값 (갤러리 외부 경로): ${_selectedImage!.path}');
-    } else {
-      print('이미지 선택 취소됨');
+    } catch (e) {
+      debugPrint('갤러리에서 이미지 선택 중 오류 발생: $e');
     }
-  } catch (e) {
-    print('갤러리에서 이미지 선택 중 오류: $e');
   }
-}
 
   Future<void> _detectWatermark() async {
     if (_selectedImage == null) return;

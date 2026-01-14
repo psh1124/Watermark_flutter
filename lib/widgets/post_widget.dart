@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/post.dart';
 import '../services/api_service.dart';
-import '../config/env_config.dart';
 import 'dart:io'; // Added for File
 import 'package:http/http.dart' as http; // Added for http
 import 'package:path_provider/path_provider.dart'; // Added for getTemporaryDirectory
@@ -10,7 +9,7 @@ import 'package:path_provider/path_provider.dart'; // Added for getTemporaryDire
 class PostWidget extends StatefulWidget {
   final Post post;
   final VoidCallback? onLikeToggle;
-  
+
   const PostWidget({
     super.key,
     required this.post,
@@ -127,7 +126,7 @@ class _PostWidgetState extends State<PostWidget> {
               print('=== 점 세개 버튼 클릭됨 ===');
               print('현재 포스트: ${widget.post.username}');
               print('드롭다운 메뉴를 표시합니다.');
-              
+
               setState(() {
                 _showDropdown = !_showDropdown;
               });
@@ -159,59 +158,59 @@ class _PostWidgetState extends State<PostWidget> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: _getImageUrl().startsWith('assets/') 
-          ? Image.asset(
-              _getImageUrl(),
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: double.infinity,
-                  height: 300,
-                  color: Colors.grey[300],
-                  child: const Icon(
-                    Icons.error,
-                    color: Colors.grey,
-                    size: 50,
-                  ),
-                );
-              },
-            )
-          : Image.network(
-              _getImageUrl(),
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                  width: double.infinity,
-                  height: 300,
-                  color: Colors.grey[100],
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
+        child: _getImageUrl().startsWith('assets/')
+            ? Image.asset(
+                _getImageUrl(),
+                width: double.infinity,
+                height: 300,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: double.infinity,
+                    height: 300,
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.error,
+                      color: Colors.grey,
+                      size: 50,
                     ),
-                  ),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: double.infinity,
-                  height: 300,
-                  color: Colors.grey[300],
-                  child: const Icon(
-                    Icons.error,
-                    color: Colors.grey,
-                    size: 50,
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              )
+            : Image.network(
+                _getImageUrl(),
+                width: double.infinity,
+                height: 300,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    width: double.infinity,
+                    height: 300,
+                    color: Colors.grey[100],
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: double.infinity,
+                    height: 300,
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.error,
+                      color: Colors.grey,
+                      size: 50,
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
@@ -239,11 +238,13 @@ class _PostWidgetState extends State<PostWidget> {
             child: Icon(
               _isLiked ? Icons.favorite : Icons.favorite_border,
               size: 24,
-              color: _isLiked ? const Color(0xFFE81F63) : const Color(0xFF4D4D4D),
+              color:
+                  _isLiked ? const Color(0xFFE81F63) : const Color(0xFF4D4D4D),
             ),
           ),
           const SizedBox(width: 20),
-          const Icon(Icons.chat_bubble_outline, size: 24, color: Color(0xFF4D4D4D)),
+          const Icon(Icons.chat_bubble_outline,
+              size: 24, color: Color(0xFF4D4D4D)),
           const SizedBox(width: 20),
           const Icon(Icons.send, size: 24, color: Color(0xFF4D4D4D)),
         ],
@@ -318,7 +319,7 @@ class _PostWidgetState extends State<PostWidget> {
         });
 
         if (title == '다운로드') {
-          _handleWatermarkDownload();  // 워터마크 다운로드 함수 호출
+          _handleWatermarkDownload(); // 워터마크 다운로드 함수 호출
         } else {
           showDialog(
             context: context,
@@ -338,9 +339,14 @@ class _PostWidgetState extends State<PostWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Row(
           children: [
-            Text(icon, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF666666))),
+            Text(icon,
+                style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF666666))),
             const SizedBox(width: 8),
-            Text(title, style: const TextStyle(fontSize: 14, color: Color(0xFF333333))),
+            Text(title,
+                style: const TextStyle(fontSize: 14, color: Color(0xFF333333))),
           ],
         ),
       ),
@@ -349,135 +355,135 @@ class _PostWidgetState extends State<PostWidget> {
 
   // 워터마크 다운로드 처리
   // 워터마크 다운로드 처리 (수정 버전)
-Future<void> _handleWatermarkDownload() async {
-  print('=== 워터마크 다운로드 시작 ===');
-  print('포스트 캡션: ${widget.post.caption}');
-  
-  try {
-    // 현재 포스트의 이미지를 가져오기
-    final imageFile = await _getCurrentPostImage();
-    
-    if (imageFile == null) {
-      print('이미지 파일을 가져올 수 없습니다.');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('이미지를 가져올 수 없습니다.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-    
-    print('이미지 파일 경로: ${imageFile.path}');
-    
-    // 로딩 표시
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('워터마크 삽입 중...'),
-          ],
-        ),
-      ),
-    );
-    
-    // 워터마크 삽입 API 호출
-    final watermarkImage = await ApiService.embedWatermark(
-      // username: widget.post.username,
-      text: widget.post.caption,
-      imageFile: imageFile,
-    );
-    
-    // 로딩 다이얼로그 닫기
-    Navigator.pop(context);
-    
-    if (watermarkImage != null) {
-      print('워터마크 이미지 생성 성공: ${watermarkImage.path}');
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('워터마크가 삽입된 이미지가 생성되었습니다!'),
-          backgroundColor: Colors.green,
-          duration: const Duration(seconds: 4),
-          action: SnackBarAction(
-            label: '파일 경로',
-            textColor: Colors.white,
-            onPressed: () {
-              print('워터마크 이미지 경로: ${watermarkImage.path}');
-              _showImagePathInfo(watermarkImage.path);
-            },
+  Future<void> _handleWatermarkDownload() async {
+    print('=== 워터마크 다운로드 시작 ===');
+    print('포스트 캡션: ${widget.post.caption}');
+
+    try {
+      // 현재 포스트의 이미지를 가져오기
+      final imageFile = await _getCurrentPostImage();
+
+      if (imageFile == null) {
+        print('이미지 파일을 가져올 수 없습니다.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('이미지를 가져올 수 없습니다.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      print('이미지 파일 경로: ${imageFile.path}');
+
+      // 로딩 표시
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('워터마크 삽입 중...'),
+            ],
           ),
         ),
       );
-    } else {
-      print('워터마크 이미지 생성 실패');
+
+      // 워터마크 삽입 API 호출
+      final watermarkImage = await ApiService.embedWatermark(
+        // username: widget.post.username,
+        text: widget.post.caption,
+        imageFile: imageFile,
+      );
+
+      // 로딩 다이얼로그 닫기
+      Navigator.pop(context);
+
+      if (watermarkImage != null) {
+        print('워터마크 이미지 생성 성공: ${watermarkImage.path}');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('워터마크가 삽입된 이미지가 생성되었습니다!'),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: '파일 경로',
+              textColor: Colors.white,
+              onPressed: () {
+                print('워터마크 이미지 경로: ${watermarkImage.path}');
+                _showImagePathInfo(watermarkImage.path);
+              },
+            ),
+          ),
+        );
+      } else {
+        print('워터마크 이미지 생성 실패');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('워터마크 삽입에 실패했습니다.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      print('=== 워터마크 다운로드 에러 발생 ===');
+      print('에러 타입: ${e.runtimeType}');
+      print('에러 내용: $e');
+
+      Navigator.pop(context);
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('워터마크 삽입에 실패했습니다.'),
+        SnackBar(
+          content: Text('워터마크 다운로드 중 오류가 발생했습니다: $e'),
           backgroundColor: Colors.red,
         ),
       );
     }
-  } catch (e) {
-    print('=== 워터마크 다운로드 에러 발생 ===');
-    print('에러 타입: ${e.runtimeType}');
-    print('에러 내용: $e');
-    
-    Navigator.pop(context);
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('워터마크 다운로드 중 오류가 발생했습니다: $e'),
-        backgroundColor: Colors.red,
-      ),
-    );
   }
-}
-
 
   // 현재 포스트의 이미지 파일 가져오기
   Future<File?> _getCurrentPostImage() async {
     try {
       final imageUrl = _getImageUrl();
       print('이미지 URL: $imageUrl');
-      
+
       if (imageUrl.startsWith('assets/')) {
         // 로컬 에셋 이미지인 경우
         print('로컬 에셋 이미지 처리 시작: $imageUrl');
-        
+
         try {
           // assets를 ByteData로 읽기
           print('rootBundle.load() 호출 중...');
           final ByteData data = await rootBundle.load(imageUrl);
           print('ByteData 로드 완료, 크기: ${data.lengthInBytes} bytes');
-          
+
           final List<int> bytes = data.buffer.asUint8List();
           print('바이트 배열 변환 완료, 크기: ${bytes.length} bytes');
-          
+
           // 임시 파일로 저장
           print('임시 디렉토리 가져오는 중...');
           final directory = await getTemporaryDirectory();
           print('임시 디렉토리: ${directory.path}');
-          
-          final imagePath = '${directory.path}/asset_${widget.post.id}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+          final imagePath =
+              '${directory.path}/asset_${widget.post.id}_${DateTime.now().millisecondsSinceEpoch}.jpg';
           print('저장할 이미지 경로: $imagePath');
-          
+
           final imageFile = File(imagePath);
           print('File 객체 생성 완료');
-          
+
           print('바이트를 파일에 쓰는 중...');
           await imageFile.writeAsBytes(bytes);
           print('로컬 에셋 이미지 임시 저장 완료: $imagePath');
-          
+
           // 파일이 실제로 생성되었는지 확인
           final exists = await imageFile.exists();
           print('파일 존재 여부: $exists');
-          
+
           if (exists) {
             final fileSize = await imageFile.length();
             print('저장된 파일 크기: $fileSize bytes');
@@ -494,20 +500,21 @@ Future<void> _handleWatermarkDownload() async {
       } else {
         // 네트워크 이미지인 경우
         print('네트워크 이미지 처리 시작: $imageUrl');
-        
+
         try {
           // 이미지를 다운로드하여 임시 파일로 저장
           print('HTTP GET 요청 시작...');
           final response = await http.get(Uri.parse(imageUrl));
           print('HTTP 응답 상태 코드: ${response.statusCode}');
-          
+
           if (response.statusCode == 200) {
             print('이미지 다운로드 성공, 크기: ${response.bodyBytes.length} bytes');
-            
+
             final directory = await getTemporaryDirectory();
-            final imagePath = '${directory.path}/post_${widget.post.id}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+            final imagePath =
+                '${directory.path}/post_${widget.post.id}_${DateTime.now().millisecondsSinceEpoch}.jpg';
             final imageFile = File(imagePath);
-            
+
             await imageFile.writeAsBytes(response.bodyBytes);
             print('네트워크 이미지 임시 저장 완료: $imagePath');
             return imageFile;
@@ -529,7 +536,6 @@ Future<void> _handleWatermarkDownload() async {
     }
   }
 
-
   // 갤러리 앱 열기
   void _openGallery() {
     print('=== 갤러리 앱 열기 시도 ===');
@@ -537,7 +543,7 @@ Future<void> _handleWatermarkDownload() async {
       // Android에서는 갤러리 앱을 직접 열 수 있습니다
       // iOS에서는 제한이 있을 수 있습니다
       print('갤러리 앱을 열어주세요. 워터마크 이미지가 "WaterPark SNS" 앨범에 저장되었습니다.');
-      
+
       // 사용자에게 안내 메시지 표시
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -555,7 +561,7 @@ Future<void> _handleWatermarkDownload() async {
   void _showImagePathInfo(String imagePath) {
     print('=== 워터마크 이미지 경로 정보 표시 ===');
     print('이미지 경로: $imagePath');
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -602,17 +608,23 @@ Future<void> _handleWatermarkDownload() async {
 
   Color _getProfileColor() {
     switch (widget.post.username) {
-      case 'john_doe': return const Color(0xFF667DEB);
-      case 'jane_smith': return const Color(0xFFE81F63);
-      default: return const Color(0xFFD9D9D9);
+      case 'john_doe':
+        return const Color(0xFF667DEB);
+      case 'jane_smith':
+        return const Color(0xFFE81F63);
+      default:
+        return const Color(0xFFD9D9D9);
     }
   }
 
   Color _getImageColor() {
     switch (widget.post.username) {
-      case 'john_doe': return const Color(0xFFD9A6F2);
-      case 'jane_smith': return const Color(0xFF66CCBA);
-      default: return const Color(0xFFD9D9D9);
+      case 'john_doe':
+        return const Color(0xFFD9A6F2);
+      case 'jane_smith':
+        return const Color(0xFF66CCBA);
+      default:
+        return const Color(0xFFD9D9D9);
     }
   }
 
@@ -622,4 +634,4 @@ Future<void> _handleWatermarkDownload() async {
       _likeCount = _isLiked ? _likeCount + 1 : _likeCount - 1;
     });
   }
-} 
+}

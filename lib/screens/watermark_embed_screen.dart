@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../services/api_service.dart';
-import '../services/media_scanner.dart';
 
 class WatermarkEmbedScreen extends StatefulWidget {
   final String username;
@@ -18,7 +17,8 @@ class _WatermarkEmbedScreenState extends State<WatermarkEmbedScreen> {
   File? _watermarkedImage;
   String? _embeddingError;
   final ImagePicker _picker = ImagePicker();
-  final TextEditingController _watermarkTextController = TextEditingController();
+  final TextEditingController _watermarkTextController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -260,13 +260,13 @@ class _WatermarkEmbedScreenState extends State<WatermarkEmbedScreen> {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        gradient: _isEmbedding 
-          ? null 
-          : const LinearGradient(
-              colors: [Color(0xFF667DEB), Color(0xFF5A67D8)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        gradient: _isEmbedding
+            ? null
+            : const LinearGradient(
+                colors: [Color(0xFF667DEB), Color(0xFF5A67D8)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ElevatedButton(
@@ -281,25 +281,26 @@ class _WatermarkEmbedScreenState extends State<WatermarkEmbedScreen> {
           ),
         ),
         child: _isEmbedding
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white),
-                ),
-                SizedBox(width: 16),
-                Text(
-                  '삽입 중...',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
-          : const Text(
-              '워터마크 삽입 및 다운로드 하기',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2.5, color: Colors.white),
+                  ),
+                  SizedBox(width: 16),
+                  Text(
+                    '삽입 중...',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
+            : const Text(
+                '워터마크 삽입 및 다운로드 하기',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
       ),
     );
   }
@@ -309,7 +310,10 @@ class _WatermarkEmbedScreenState extends State<WatermarkEmbedScreen> {
       children: [
         const Text(
           '워터마크 삽입 성공!',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF2E7D32)),
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2E7D32)),
         ),
         const SizedBox(height: 12),
         if (_watermarkedImage != null)
@@ -366,7 +370,12 @@ class _WatermarkEmbedScreenState extends State<WatermarkEmbedScreen> {
               child: Icon(icon, size: 24, color: const Color(0xFF667DEB)),
             ),
             const SizedBox(height: 8),
-            Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF333333)), textAlign: TextAlign.center),
+            Text(title,
+                style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF333333)),
+                textAlign: TextAlign.center),
           ],
         ),
       ),

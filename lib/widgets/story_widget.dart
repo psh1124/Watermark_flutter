@@ -4,7 +4,7 @@ class StoryWidget extends StatelessWidget {
   final String username;
   final bool hasNewStory;
   final bool isMyStory;
-  
+
   const StoryWidget({
     super.key,
     required this.username,
@@ -14,7 +14,7 @@ class StoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 70,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,13 +26,13 @@ class StoryWidget extends StatelessWidget {
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: hasNewStory 
-                ? const LinearGradient(
-                    colors: [Color(0xFF667DEA), Color(0xFF764BA2)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : null,
+              gradient: hasNewStory
+                  ? const LinearGradient(
+                      colors: [Color(0xFF667DEA), Color(0xFF764BA2)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
               color: hasNewStory ? null : const Color(0xFFE0E0E0),
             ),
             child: Container(
@@ -49,9 +49,9 @@ class StoryWidget extends StatelessWidget {
               ),
             ),
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // 사용자명
           Text(
             username,
@@ -68,12 +68,12 @@ class StoryWidget extends StatelessWidget {
       ),
     );
   }
-  
+
   Color _getAvatarColor() {
     if (isMyStory) {
       return const Color(0xFFF0F0F0);
     }
-    
+
     switch (username) {
       case 'john_doe':
         return const Color(0xFFD9D9D9);
@@ -83,7 +83,7 @@ class StoryWidget extends StatelessWidget {
         return const Color(0xFFD9D9D9);
     }
   }
-  
+
   Widget _getAvatarIcon() {
     return const Icon(
       Icons.person,
@@ -104,7 +104,7 @@ class StoriesSection extends StatelessWidget {
       {'username': 'jane_smith', 'hasNewStory': true, 'isMyStory': false},
       {'username': 'user3', 'hasNewStory': false, 'isMyStory': false},
     ];
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -137,4 +137,4 @@ class StoriesSection extends StatelessWidget {
       ),
     );
   }
-} 
+}
