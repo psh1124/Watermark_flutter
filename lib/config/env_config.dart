@@ -16,7 +16,7 @@ class EnvConfig {
   static String get loginUrl => '$apiBaseUrl$loginEndpoint';
   
   // Full watermark URL
-  static String get watermarkUrl => '$apiBaseUrl$watermarkEndpoint';
+  static String get watermarkEmbedUrl => '$apiBaseUrl$watermarkEndpoint';
   
   // Full watermark detection URL
   static String get watermarkDetectionUrl => '$apiBaseUrl$watermarkDetectionEndpoint';
