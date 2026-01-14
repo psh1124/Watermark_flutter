@@ -34,8 +34,9 @@ class CustomBottomNavigation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildNavItem(0, '🏠', '홈', const Color(0xFF667DEB)),
-          _buildNavItem(1, '🔍', '워터마크 검출', const Color(0xFFFF9800)),
-          _buildNavItem(2, '👤', '프로필', const Color(0xFF8F8F8F)),
+          _buildNavItem(1, '➕', '워터마크 삽입', const Color(0xFFFF9800)),
+          _buildNavItem(2, '🔍', '워터마크 검출', const Color(0xFFFF9800)),
+          _buildNavItem(3, '👤', '프로필', const Color(0xFF8F8F8F)),
         ],
       ),
     );

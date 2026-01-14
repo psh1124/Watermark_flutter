@@ -5,6 +5,7 @@ import '../widgets/bottom_navigation.dart';
 import '../models/post.dart';
 import '../services/api_service.dart';
 import 'restore_screen.dart';
+import 'watermark_embed_screen.dart';
 import 'watermark_detection_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -155,24 +156,21 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onNavTap(int index) {
-    setState(() {
-      _currentNavIndex = index;
-    });
-    
-    if (index == 1) { // 워터마크 검출 탭
+    if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const WatermarkDetectionScreen()),
+        MaterialPageRoute(builder: (_) => const WatermarkEmbedScreen(username: 'john_doe')),
       );
-    } else if (index == 2) { // 프로필 탭
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('프로필 기능이 곧 제공됩니다!'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Color(0xFF667DEB),
-        ),
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const WatermarkDetectionScreen()), // 새 페이지 연결
       );
     }
+
+    setState(() {
+      _currentNavIndex = index; // 눌린 탭 반영
+    });
   }
 
   String _getNavTitle(int index) {
@@ -185,7 +183,6 @@ class _MainScreenState extends State<MainScreen> {
 
   // 로그인 다이얼로그 표시
   void _showLoginDialog() {
-    print('=== 헤더 로그인 다이얼로그 표시 ===');
     
     final usernameController = TextEditingController(text: 'seonghun8368');
     final passwordController = TextEditingController(text: 'qwer1234@!');
@@ -225,7 +222,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-              print('헤더 로그인 버튼 클릭 - 로그인 처리 시작');
               await _handleHeaderLogin(usernameController.text, passwordController.text);
             },
             child: const Text('로그인'),
@@ -237,9 +233,8 @@ class _MainScreenState extends State<MainScreen> {
 
   // 헤더 로그인 처리
   Future<void> _handleHeaderLogin(String username, String password) async {
-    print('=== 헤더 로그인 처리 시작 ===');
     print('입력된 사용자명: $username');
-    print('입력된 비밀번호 길이: ${password.length}');
+    print('입력된 비밀번호: ${password}');
     
     if (username.isEmpty || password.isEmpty) {
       print('로그인 실패: 사용자명 또는 비밀번호가 비어있음');
@@ -267,7 +262,6 @@ class _MainScreenState extends State<MainScreen> {
       
       if (success) {
         print('헤더 로그인 성공!');
-        // 로그인 성공 시 다이얼로그 닫기
         Navigator.pop(context);
         
         ScaffoldMessenger.of(context).showSnackBar(
@@ -290,7 +284,6 @@ class _MainScreenState extends State<MainScreen> {
       print('에러 타입: ${e.runtimeType}');
       print('에러 내용: $e');
       
-      // 로딩 다이얼로그 닫기
       Navigator.pop(context);
       
       ScaffoldMessenger.of(context).showSnackBar(
