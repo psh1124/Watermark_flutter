@@ -29,6 +29,21 @@
   flutter run
   ```
 
+5. 폴더 구조
+   ```bash
+   Watermark_flutter/
+   ├─ android/               # Android 관련 설정 및 코드
+   ├─ ios/                   # iOS 관련 설정 및 코드
+   ├─ lib/                   # Flutter Dart 코드
+   │  ├─ screens/            # 화면별 위젯
+   │  ├─ widgets/            # 공통 UI 위젯
+   │  └─ services/           # API 및 로컬 서비스
+   ├─ assets/                # 이미지, 아이콘 등
+   ├─ windows/ linux/ macos/  # 각 데스크톱 플랫폼 관련 코드
+   ├─ pubspec.yaml           # Flutter 의존성 설정
+   └─ README.md
+   ```
+
 ## 기술 스택
 
 Flutter & Dart
