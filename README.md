@@ -1,5 +1,4 @@
 # Watermark_flutter
-
 워터마크 인스타그램 버전 Flutter 프로젝트입니다.
 
 ---
@@ -30,13 +29,11 @@
   ```bash
   flutter pub get
   ```
---
 
 # 4. 디바이스 또는 에뮬레이터 선택 후 실행
   ```bash
   flutter run
   ```
---
 
 # 5. 폴더 구조
    ```bash
